@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="linear-grad" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.customerSignUpController">
+   <children>
+      <BorderPane prefHeight="400.0" prefWidth="600.0">
+         <center>
+            <HBox alignment="CENTER" prefHeight="166.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox prefHeight="400.0" prefWidth="330.0" spacing="15.0">
+                     <children>
+                        <TextField fx:id="nicText" prefHeight="35.0" prefWidth="245.0" promptText="NIC" />
+                        <TextField fx:id="firstNameText" prefHeight="35.0" prefWidth="245.0" promptText="First Name" />
+                        <TextField fx:id="lastNameText" prefHeight="35.0" prefWidth="245.0" promptText="Last Name" />
+                        <TextField fx:id="mobileText" prefHeight="35.0" prefWidth="245.0" promptText="Mobile" />
+                        <Button fx:id="createAccountButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" styleClass="button1" stylesheets="@css/style.css" text="Create account" />
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="TOP_RIGHT" prefHeight="400.0" prefWidth="336.0" spacing="15.0">
+                     <children>
+                        <TextField fx:id="userEmailText" prefHeight="35.0" prefWidth="245.0" promptText="Email" />
+                        <TextField fx:id="cityText" prefHeight="35.0" prefWidth="245.0" promptText="City" />
+                        <TextField fx:id="userNameText" prefHeight="35.0" prefWidth="245.0" promptText="User Name" />
+                        <PasswordField fx:id="userPasswordText" prefHeight="35.0" prefWidth="245.0" promptText="Password" />
+                        <Button fx:id="cancelButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="166.0" styleClass="button1" stylesheets="@css/style.css" text="Cancel" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+         </center>
+         <top>
+            <Label text="Customer Sign up" BorderPane.alignment="TOP_LEFT">
+               <font>
+                  <Font name="Corbel Light Italic" size="30.0" />
+               </font>
+            </Label>
+         </top>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </BorderPane>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</AnchorPane>
