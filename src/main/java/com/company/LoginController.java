@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class loginController implements Initializable {
+public class LoginController implements Initializable {
     @FXML
     private Button passengerLoginButton,driverLoginButton,closeButton;
 
@@ -19,13 +19,13 @@ public class loginController implements Initializable {
         passengerLoginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                DBUtils.login(event,"customerLogin.fxml");
+                DBUtils.login(event,"CustomerLogin.fxml");
             }
         });
         driverLoginButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event){
-                DBUtils.login(event,"driverLogin.fxml");
+                DBUtils.login(event,"DriverLogin.fxml");
             }
         });
         closeButton.setOnAction(new EventHandler<ActionEvent>(){

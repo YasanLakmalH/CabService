@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.ResourceBundle;
-public class customerSignUpController implements Initializable {
+public class CustomerSignUpController implements Initializable {
     @FXML
     private Button createAccountButton;
     @FXML
@@ -49,7 +49,7 @@ public class customerSignUpController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
 
-                DBUtils.changeScene(event,"customerLogin.fxml",0,null);
+                DBUtils.changeScene(event,"CustomerLogin.fxml",0,null);
             }
         });
     }

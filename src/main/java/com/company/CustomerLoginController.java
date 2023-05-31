@@ -4,32 +4,29 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-
+import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-public class driverLoginController implements Initializable {
+public class CustomerLoginController implements Initializable {
+    @FXML
+    private Button signInButton;
+    @FXML
+    private Button signUpButton;
     @FXML
     private Button previousButton;
     @FXML
     private Button closeButton;
     @FXML
-    private Button signInButton;
+    private TextField userNameText;
     @FXML
-    private TextField driverNameText;
-    @FXML
-    private TextField passwordText;
-
+    private PasswordField passwordText;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         signInButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(!driverNameText.getText().trim().isEmpty() && !passwordText.getText().trim().isEmpty()){
-                    DBUtils.logInVerify(event, "driverDashboard.fxml", driverNameText.getText(), passwordText.getText(),"driver");
+                if(!userNameText.getText().trim().isEmpty() && !passwordText.getText().trim().isEmpty()){
+                    DBUtils.logInVerify(event, "CustomerDashboard.fxml", userNameText.getText(), passwordText.getText(),"passenger");
                 }else{
                     System.out.println("Fill in all information");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -38,10 +35,16 @@ public class driverLoginController implements Initializable {
                 }
             }
         });
+        signUpButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                DBUtils.changeScene(event,"CustomerSignUp.fxml",0,null);
+            }
+        });
         previousButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                DBUtils.changeScene(event,"login.fxml",0,null);
+                DBUtils.changeScene(event,"Login.fxml",0,null);
             }
         });
         closeButton.setOnAction(new EventHandler<ActionEvent>() {

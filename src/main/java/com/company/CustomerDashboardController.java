@@ -8,25 +8,25 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class customerDashboardController implements Initializable {
+public class CustomerDashboardController implements Initializable {
 //    Active Tab
     @FXML
     private Button logoutButton;
     @FXML
-    private TableView <customerBookings> table;
+    private TableView <ActiveBookings> table;
     @FXML
-    private TableColumn <customerBookings,Integer> bookingIdColumn,vehicleNoColumn;
+    private TableColumn <ActiveBookings,Integer> bookingIdColumn,vehicleNoColumn;
     @FXML
-    private TableColumn <customerBookings,String>
+    private TableColumn <ActiveBookings,String>
             contactNoColumn,
             pickupLocationColumn,destinationColumn,dateColumn,
             timeColumn,vehicleTypeColumn,statusColumn;
     @FXML
-    private TableView <customerBookings> tableP;
+    private TableView <Bookings> tableP;
     @FXML
-    private TableColumn <customerBookings,Integer> bookingIdColumnP;
+    private TableColumn <ActiveBookings,Integer> bookingIdColumnP;
     @FXML
-    private TableColumn <customerBookings,String>
+    private TableColumn <ActiveBookings,String>
             contactNoColumnP,pickupLocationColumnP,
             destinationColumnP,vehicleTypeColumnP,dateColumnP,timeColumnP,
             statusColumnP;
@@ -192,29 +192,29 @@ public class customerDashboardController implements Initializable {
         hoursText.getItems().addAll(hours);
         minutesText.getItems().addAll(minutes);
 
-        bookingIdColumn.setCellValueFactory(new PropertyValueFactory<customerBookings,Integer>("bookingId"));
-        contactNoColumn.setCellValueFactory(new PropertyValueFactory<customerBookings,String>("contactNo"));
-        pickupLocationColumn.setCellValueFactory(new PropertyValueFactory<customerBookings,String>("pickupLocation"));
-        destinationColumn.setCellValueFactory(new PropertyValueFactory<customerBookings,String>("destination"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<customerBookings,String>("date"));
-        timeColumn.setCellValueFactory(new PropertyValueFactory<customerBookings,String>("time"));
-        vehicleNoColumn.setCellValueFactory(new PropertyValueFactory<customerBookings,Integer>("vehicleNo"));
-        vehicleTypeColumn.setCellValueFactory(new PropertyValueFactory<customerBookings,String>("vehicleType"));
-        statusColumn.setCellValueFactory(new PropertyValueFactory<customerBookings,String>("status"));
+        bookingIdColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,Integer>("bookingId"));
+        contactNoColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("contactNo"));
+        pickupLocationColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("pickupLocation"));
+        destinationColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("destination"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("date"));
+        timeColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("time"));
+        vehicleNoColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,Integer>("vehicleNo"));
+        vehicleTypeColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("vehicleType"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("status"));
 
-        bookingIdColumnP.setCellValueFactory(new PropertyValueFactory<customerBookings,Integer>("bookingId"));
-        contactNoColumnP.setCellValueFactory(new PropertyValueFactory<customerBookings,String>("contactNo"));
-        pickupLocationColumnP.setCellValueFactory(new PropertyValueFactory<customerBookings,String>("pickupLocation"));
-        destinationColumnP.setCellValueFactory(new PropertyValueFactory<customerBookings,String>("destination"));
-        vehicleTypeColumnP.setCellValueFactory(new PropertyValueFactory<customerBookings,String>("vehicleType"));
-        dateColumnP.setCellValueFactory(new PropertyValueFactory<customerBookings,String>("date"));
-        timeColumnP.setCellValueFactory(new PropertyValueFactory<customerBookings,String>("time"));
-        statusColumnP.setCellValueFactory(new PropertyValueFactory<customerBookings,String>("status"));
+        bookingIdColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,Integer>("bookingId"));
+        contactNoColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("contactNo"));
+        pickupLocationColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("pickupLocation"));
+        destinationColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("destination"));
+        vehicleTypeColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("vehicleType"));
+        dateColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("date"));
+        timeColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("time"));
+        statusColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("status"));
 
         logoutButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                DBUtils.changeScene(event, "login.fxml",0,null);
+                DBUtils.changeScene(event, "Login.fxml",0,null);
             }
         });
         proceedButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -229,7 +229,7 @@ public class customerDashboardController implements Initializable {
                             String.valueOf(bookingDateText.getValue()),
                             time,
                             "pending");
-                    DBUtils.changeScene(event,"customerDashboard.fxml",Integer.parseInt(userIdLabel.getText()),"passenger");
+                    DBUtils.changeScene(event,"CustomerDashboard.fxml",Integer.parseInt(userIdLabel.getText()),"passenger");
                 }
                 DBUtils.addNewBooking(Integer.parseInt(userIdLabel.getText()),
                         Integer.parseInt(contactNoText.getText()),
@@ -238,7 +238,7 @@ public class customerDashboardController implements Initializable {
                         String.valueOf(bookingDateText.getValue()),
                         time,
                         "pending");
-                DBUtils.changeScene(event,"customerDashboard.fxml",Integer.parseInt(userIdLabel.getText()),"passenger");
+                DBUtils.changeScene(event,"CustomerDashboard.fxml",Integer.parseInt(userIdLabel.getText()),"passenger");
             }
         });
     }

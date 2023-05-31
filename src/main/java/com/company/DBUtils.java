@@ -26,7 +26,7 @@ public class DBUtils {
             try {
                 FXMLLoader loader = new FXMLLoader(DBUtils.class.getResource(fxmlFile));
                 root = loader.load();
-                customerDashboardController dashboardController = loader.getController();
+                CustomerDashboardController dashboardController = loader.getController();
                 dashboardController.setUserInformation(userId);
                 dashboardController.setUserBookings();
             } catch (IOException e) {
@@ -36,7 +36,7 @@ public class DBUtils {
             try {
                 FXMLLoader loader = new FXMLLoader(DBUtils.class.getResource(fxmlFile));
                 root = loader.load();
-                driverDashboardController dashboardController = loader.getController();
+                DriverDashboardController dashboardController = loader.getController();
                 dashboardController.setUserInformation(userId);
                 dashboardController.setUserBookings();
             } catch (IOException e) {
@@ -114,7 +114,7 @@ public class DBUtils {
                 alert.setContentText("Account created.");
                 alert.show();
 
-                changeScene(event, "customerLogin.fxml", 0, null);
+                changeScene(event, "CustomerLogin.fxml", 0, null);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -237,11 +237,11 @@ public class DBUtils {
         }
     }
 
-    public static void loadUserActiveBookingsData(int userId, TableView<customerBookings> tableName) {
+    public static void loadUserActiveBookingsData(int userId, TableView<ActiveBookings> tableName) {
         Connection connection = null;
         PreparedStatement psGetUserBookingsData = null;
         ResultSet userBookingsData = null;
-        ObservableList<customerBookings> list = FXCollections.observableArrayList();
+        ObservableList<ActiveBookings> list = FXCollections.observableArrayList();
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cabservice", "root", "");
             psGetUserBookingsData = connection.prepareStatement("SELECT  " +
@@ -273,11 +273,11 @@ public class DBUtils {
                 String destination = userBookingsData.getString("destination");
                 String date = userBookingsData.getString("date");
                 String time = userBookingsData.getString("time");
-                int vehicleNo = userBookingsData.getInt("vehicleNo");
+                String vehicleNo = userBookingsData.getString("vehicleNo");
                 String vehicleType = userBookingsData.getString("vehicleType");
                 String status = userBookingsData.getString("status");
                 list.add(
-                        new customerBookings(
+                        new ActiveBookings(
                                 userId,
                                 bookingId,
                                 contactNo,
@@ -319,11 +319,11 @@ public class DBUtils {
         }
     }
 
-    public static void loadUserPendingBookingsData(int userId, TableView<customerBookings> tableName) {
+    public static void loadUserPendingBookingsData(int userId, TableView<Bookings> tableName) {
         Connection connection = null;
         PreparedStatement psGetUserBookingsData = null;
         ResultSet userPendingBookingsData = null;
-        ObservableList<customerBookings> list = FXCollections.observableArrayList();
+        ObservableList<Bookings> list = FXCollections.observableArrayList();
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cabservice", "root", "");
             psGetUserBookingsData = connection.prepareStatement("SELECT * From userbookings "+
@@ -339,19 +339,19 @@ public class DBUtils {
                 String pickupLocation = userPendingBookingsData.getString("pickupLocation");
                 String destination = userPendingBookingsData.getString("destination");
                 String vehicleType = userPendingBookingsData.getString("vehicleType");
-                String date = userPendingBookingsData.getString("date");
-                String time = userPendingBookingsData.getString("time");
+                String bookingDate = userPendingBookingsData.getString("date");
+                String bookingTime = userPendingBookingsData.getString("time");
                 String status = userPendingBookingsData.getString("status");
                 list.add(
-                        new customerBookings(
+                        new Bookings(
                                 userId,
                                 bookingId,
                                 contactNo,
                                 pickupLocation,
                                 destination,
                                 vehicleType,
-                                date,
-                                time,
+                                bookingDate,
+                                bookingTime,
                                 status)
                 );
                 tableName.setItems(list);
@@ -510,11 +510,11 @@ public class DBUtils {
 
 
     //    Driver
-    public static void loadUserActiveDriverRides(int driverId, TableView<customerBookings> tableName) {
+    public static void loadUserActiveDriverRides(int driverId, TableView<ActiveBookings> tableName) {
         Connection connection = null;
         PreparedStatement psGetUserBookingsData = null;
         ResultSet userBookingsData = null;
-        ObservableList<customerBookings> list = FXCollections.observableArrayList();
+        ObservableList<ActiveBookings> list = FXCollections.observableArrayList();
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cabservice", "root", "");
             psGetUserBookingsData = connection.prepareStatement("SELECT  " +
@@ -547,11 +547,11 @@ public class DBUtils {
                 String destination = userBookingsData.getString("destination");
                 String date = userBookingsData.getString("date");
                 String time = userBookingsData.getString("time");
-                int vehicleNo = userBookingsData.getInt("vehicleNo");
+                String vehicleNo = userBookingsData.getString("vehicleNo");
                 String vehicleType = userBookingsData.getString("vehicleType");
                 String status = userBookingsData.getString("status");
                 list.add(
-                        new customerBookings(
+                        new ActiveBookings(
                                 userId,
                                 bookingId,
                                 contactNo,
@@ -592,11 +592,11 @@ public class DBUtils {
             }
         }
     }
-    public static void loadUserCompletedDriverRides(int driverId, TableView<customerBookings> tableName) {
+    public static void loadUserCompletedDriverRides(int driverId, TableView<ActiveBookings> tableName) {
         Connection connection = null;
         PreparedStatement psGetUserBookingsData = null;
         ResultSet userBookingsData = null;
-        ObservableList<customerBookings> list = FXCollections.observableArrayList();
+        ObservableList<ActiveBookings> list = FXCollections.observableArrayList();
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cabservice", "root", "");
             psGetUserBookingsData = connection.prepareStatement("SELECT  " +
@@ -629,11 +629,11 @@ public class DBUtils {
                 String destination = userBookingsData.getString("destination");
                 String date = userBookingsData.getString("date");
                 String time = userBookingsData.getString("time");
-                int vehicleNo = userBookingsData.getInt("vehicleNo");
+                String vehicleNo = userBookingsData.getString("vehicleNo");
                 String vehicleType = userBookingsData.getString("vehicleType");
                 String status = userBookingsData.getString("status");
                 list.add(
-                        new customerBookings(
+                        new ActiveBookings(
                                 userId,
                                 bookingId,
                                 contactNo,
