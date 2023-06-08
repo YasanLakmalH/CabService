@@ -24,16 +24,16 @@ public class CustomerDashboardController implements Initializable {
     @FXML
     private TableView <Bookings> tableP;
     @FXML
-    private TableColumn <ActiveBookings,Integer> bookingIdColumnP;
+    private TableColumn <Bookings,Integer> bookingIdColumnP;
     @FXML
-    private TableColumn <ActiveBookings,String>
+    private TableColumn <Bookings,String>
             contactNoColumnP,pickupLocationColumnP,
             destinationColumnP,vehicleTypeColumnP,dateColumnP,timeColumnP,
             statusColumnP;
     @FXML
     private Button proceedButton;
     @FXML
-    private TextField destinationNameText,contactNoText;
+    private TextField contactNoText;
     @FXML
     private ChoiceBox<String> vehicleCategoryText,cityFrom,cityTo,hoursText,minutesText;
     @FXML
@@ -54,115 +54,115 @@ public class CustomerDashboardController implements Initializable {
             "51", "52", "53", "54", "55", "56", "57", "58", "59", "00"};
     int pricePerKm;
     int totalCharge;
-    public void updatePerKm(){
-        if (cityTo.getValue().equals(cityFrom.getValue())){
+    public void updatePerKm(String cityFrom, String cityTo, String vehicleType){
+        if (cityTo.equals(cityFrom)){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Invalid Destination");
             alert.show();
         }
-        else if (cityTo.getValue() == "Colombo" && cityFrom.getValue() == "Kandy" || cityTo.getValue() == "Kandy" && cityFrom.getValue() == "Colombo" && vehicleCategoryText.getValue()=="Van"){
+        else if (cityTo == "Colombo" && cityFrom == "Kandy" || cityTo == "Kandy" && cityFrom == "Colombo" && vehicleCategoryText.getValue()=="Van"){
             pricePerKm = 100;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*122;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Colombo" && cityFrom.getValue() == "Galle" || cityTo.getValue() == "Galle" && cityFrom.getValue() == "Colombo" && vehicleCategoryText.getValue()=="Van"){
+        else if (cityTo == "Colombo" && cityFrom == "Galle" || cityTo == "Galle" && cityFrom == "Colombo" && vehicleCategoryText.getValue()=="Van"){
             pricePerKm = 30;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*107;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Colombo" && cityFrom.getValue() == "Kurunegala" || cityTo.getValue() == "Kurunegala" && cityFrom.getValue() == "Colombo" && vehicleCategoryText.getValue()=="Van"){
+        else if (cityTo == "Colombo" && cityFrom == "Kurunegala" || cityTo == "Kurunegala" && cityFrom == "Colombo" && vehicleCategoryText.getValue()=="Van"){
             pricePerKm = 60;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*84;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Galle" && cityFrom.getValue() == "Kandy" || cityTo.getValue() == "Kandy" && cityFrom.getValue() == "Galle" && vehicleCategoryText.getValue()=="Van"){
+        else if (cityTo == "Galle" && cityFrom == "Kandy" || cityTo == "Kandy" && cityFrom == "Galle" && vehicleCategoryText.getValue()=="Van"){
             pricePerKm = 130;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*147;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Galle" && cityFrom.getValue() == "Kurunegala" || cityTo.getValue() == "Kurunegala" && cityFrom.getValue() == "Galle" && vehicleCategoryText.getValue()=="Van"){
+        else if (cityTo == "Galle" && cityFrom == "Kurunegala" || cityTo == "Kurunegala" && cityFrom == "Galle" && vehicleCategoryText.getValue()=="Van"){
             pricePerKm = 160;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*200;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Kurunegala" && cityFrom.getValue() == "Kandy" || cityTo.getValue() == "Kandy" && cityFrom.getValue() == "Kurunegala" && vehicleCategoryText.getValue()=="Van"){
+        else if (cityTo == "Kurunegala" && cityFrom == "Kandy" || cityTo == "Kandy" && cityFrom == "Kurunegala" && vehicleCategoryText.getValue()=="Van"){
             pricePerKm = 40;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*15;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Colombo" && cityFrom.getValue() == "Kandy" || cityTo.getValue() == "Kandy" && cityFrom.getValue() == "Colombo" && vehicleCategoryText.getValue()=="Car"){
+        else if (cityTo == "Colombo" && cityFrom == "Kandy" || cityTo == "Kandy" && cityFrom == "Colombo" && vehicleCategoryText.getValue()=="Car"){
             pricePerKm = 90;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*122;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Colombo" && cityFrom.getValue() == "Galle" || cityTo.getValue() == "Galle" && cityFrom.getValue() == "Colombo" && vehicleCategoryText.getValue() == "Car"){
+        else if (cityTo == "Colombo" && cityFrom == "Galle" || cityTo == "Galle" && cityFrom == "Colombo" && vehicleCategoryText.getValue() == "Car"){
             pricePerKm = 20;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*107;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Colombo" && cityFrom.getValue() == "Kurunegala" || cityTo.getValue() == "Kurunegala" && cityFrom.getValue() == "Colombo" && vehicleCategoryText.getValue() == "Car"){
+        else if (cityTo == "Colombo" && cityFrom == "Kurunegala" || cityTo == "Kurunegala" && cityFrom == "Colombo" && vehicleCategoryText.getValue() == "Car"){
             pricePerKm = 50;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*84;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Galle" && cityFrom.getValue() == "Kandy" || cityTo.getValue() == "Kandy" && cityFrom.getValue() == "Galle" && vehicleCategoryText.getValue() == "Car"){
+        else if (cityTo == "Galle" && cityFrom == "Kandy" || cityTo == "Kandy" && cityFrom == "Galle" && vehicleCategoryText.getValue() == "Car"){
             pricePerKm = 120;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*147;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Galle" && cityFrom.getValue() == "Kurunegala" || cityTo.getValue() == "Kurunegala" && cityFrom.getValue() == "Galle" && vehicleCategoryText.getValue() == "Car"){
+        else if (cityTo == "Galle" && cityFrom == "Kurunegala" || cityTo == "Kurunegala" && cityFrom == "Galle" && vehicleCategoryText.getValue() == "Car"){
             pricePerKm = 150;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*200;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Kurunegala" && cityFrom.getValue() == "Kandy" || cityTo.getValue() == "Kandy" && cityFrom.getValue() == "Kurunegala" && vehicleCategoryText.getValue()=="Car"){
+        else if (cityTo == "Kurunegala" && cityFrom == "Kandy" || cityTo == "Kandy" && cityFrom == "Kurunegala" && vehicleCategoryText.getValue()=="Car"){
             pricePerKm = 30;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*15;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Colombo" && cityFrom.getValue() == "Kandy" || cityTo.getValue() == "Kandy" && cityFrom.getValue() == "Colombo" && vehicleCategoryText.getValue()=="Bike"){
+        else if (cityTo == "Colombo" && cityFrom == "Kandy" || cityTo == "Kandy" && cityFrom == "Colombo" && vehicleCategoryText.getValue()=="Bike"){
             pricePerKm = 80;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*122;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Colombo" && cityFrom.getValue() == "Galle" || cityTo.getValue() == "Galle" && cityFrom.getValue() == "Colombo" && vehicleCategoryText.getValue()=="Bike"){
+        else if (cityTo == "Colombo" && cityFrom == "Galle" || cityTo == "Galle" && cityFrom == "Colombo" && vehicleCategoryText.getValue()=="Bike"){
             pricePerKm = 10;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*107;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Colombo" && cityFrom.getValue() == "Kurunegala" || cityTo.getValue() == "Kurunegala" && cityFrom.getValue() == "Colombo" && vehicleCategoryText.getValue()=="Bike"){
+        else if (cityTo == "Colombo" && cityFrom == "Kurunegala" || cityTo == "Kurunegala" && cityFrom == "Colombo" && vehicleCategoryText.getValue()=="Bike"){
             pricePerKm = 40;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*84;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Galle" && cityFrom.getValue() == "Kandy" || cityTo.getValue() == "Kandy" && cityFrom.getValue() == "Galle" && vehicleCategoryText.getValue()=="Bike"){
+        else if (cityTo == "Galle" && cityFrom == "Kandy" || cityTo == "Kandy" && cityFrom == "Galle" && vehicleCategoryText.getValue()=="Bike"){
             pricePerKm = 140;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*147;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Galle" && cityFrom.getValue() == "Kurunegala" || cityTo.getValue() == "Kurunegala" && cityFrom.getValue() == "Galle" && vehicleCategoryText.getValue()=="Bike"){
+        else if (cityTo == "Galle" && cityFrom == "Kurunegala" || cityTo == "Kurunegala" && cityFrom == "Galle" && vehicleCategoryText.getValue()=="Bike"){
             pricePerKm = 20;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*200;
             totalChargeLabel.setText(String.valueOf(totalCharge));
         }
-        else if (cityTo.getValue() == "Kurunegala" && cityFrom.getValue() == "Kandy" || cityTo.getValue() == "Kandy" && cityFrom.getValue() == "Kurunegala" && vehicleCategoryText.getValue()=="Bike"){
+        else if (cityTo == "Kurunegala" && cityFrom == "Kandy" || cityTo == "Kandy" && cityFrom == "Kurunegala" && vehicleCategoryText.getValue()=="Bike"){
             pricePerKm = 70;
             perKmChargeLabel.setText(String.valueOf(pricePerKm));
             totalCharge = pricePerKm*15;
@@ -175,15 +175,15 @@ public class CustomerDashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cityTo.valueProperty().addListener((observable, oldValue, newValue) -> {
             // Update the value based on the new selection
-            updatePerKm();
+            updatePerKm(cityFrom.getValue(),cityTo.getValue(),vehicleCategoryText.getValue());
         });
         cityFrom.valueProperty().addListener((observable, oldValue, newValue) -> {
             // Update the value based on the new selection
-            updatePerKm();
+            updatePerKm(cityFrom.getValue(),cityTo.getValue(),vehicleCategoryText.getValue());
         });
         vehicleCategoryText.valueProperty().addListener((observable, oldValue, newValue) -> {
             // Update the value based on the new selection
-            updatePerKm();
+            updatePerKm(cityFrom.getValue(),cityTo.getValue(),vehicleCategoryText.getValue());
         });
 
         vehicleCategoryText.getItems().addAll(vehicles);
@@ -196,20 +196,20 @@ public class CustomerDashboardController implements Initializable {
         contactNoColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("contactNo"));
         pickupLocationColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("pickupLocation"));
         destinationColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("destination"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("date"));
-        timeColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("time"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("bookingDate"));
+        timeColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("bookingTime"));
         vehicleNoColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,Integer>("vehicleNo"));
         vehicleTypeColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("vehicleType"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("status"));
 
-        bookingIdColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,Integer>("bookingId"));
-        contactNoColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("contactNo"));
-        pickupLocationColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("pickupLocation"));
-        destinationColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("destination"));
-        vehicleTypeColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("vehicleType"));
-        dateColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("date"));
-        timeColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("time"));
-        statusColumnP.setCellValueFactory(new PropertyValueFactory<ActiveBookings,String>("status"));
+        bookingIdColumnP.setCellValueFactory(new PropertyValueFactory<Bookings,Integer>("bookingId"));
+        contactNoColumnP.setCellValueFactory(new PropertyValueFactory<Bookings,String>("contactNo"));
+        pickupLocationColumnP.setCellValueFactory(new PropertyValueFactory<Bookings,String>("pickupLocation"));
+        destinationColumnP.setCellValueFactory(new PropertyValueFactory<Bookings,String>("destination"));
+        vehicleTypeColumnP.setCellValueFactory(new PropertyValueFactory<Bookings,String>("vehicleType"));
+        dateColumnP.setCellValueFactory(new PropertyValueFactory<Bookings,String>("bookingDate"));
+        timeColumnP.setCellValueFactory(new PropertyValueFactory<Bookings,String>("bookingTime"));
+        statusColumnP.setCellValueFactory(new PropertyValueFactory<Bookings,String>("status"));
 
         logoutButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -220,10 +220,11 @@ public class CustomerDashboardController implements Initializable {
         proceedButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String time = hoursText.getValue()+":"+minutesText.getValue();
+                String time = hoursText.getValue() +":"+ minutesText.getValue();
+                System.out.println(time);
                 if(DBUtils.checkVehiclesAvailability(vehicleCategoryText.getValue(),String.valueOf(bookingDateText.getValue())) && DBUtils.checkDriversAvailability(String.valueOf(bookingDateText.getValue()))){
-                    DBUtils.addNewBooking(Integer.parseInt(userIdLabel.getText()),
-                            Integer.parseInt(contactNoText.getText()),
+                    DBUtils.addNewBooking(Integer.valueOf(userIdLabel.getText()),
+                            Integer.valueOf(contactNoText.getText()),
                             cityFrom.getValue(),cityTo.getValue(),
                             vehicleCategoryText.getValue(),
                             String.valueOf(bookingDateText.getValue()),
@@ -231,14 +232,6 @@ public class CustomerDashboardController implements Initializable {
                             "pending");
                     DBUtils.changeScene(event,"CustomerDashboard.fxml",Integer.parseInt(userIdLabel.getText()),"passenger");
                 }
-                DBUtils.addNewBooking(Integer.parseInt(userIdLabel.getText()),
-                        Integer.parseInt(contactNoText.getText()),
-                        cityFrom.getValue(),cityTo.getValue(),
-                        vehicleCategoryText.getValue(),
-                        String.valueOf(bookingDateText.getValue()),
-                        time,
-                        "pending");
-                DBUtils.changeScene(event,"CustomerDashboard.fxml",Integer.parseInt(userIdLabel.getText()),"passenger");
             }
         });
     }

@@ -17,7 +17,7 @@ public class Bookings {
                           String destination,
                           String vehicleType,
                           String bookingDate,
-                          String time,
+                          String bookingTime,
                           String status){
         this.userId = userId;
         this.bookingId = bookingId;
@@ -28,6 +28,7 @@ public class Bookings {
         this.bookingDate = bookingDate;
         this.bookingTime = bookingTime;
         this.status = status;
+
     }
     public int getUserId() {
         return userId;
@@ -51,14 +52,15 @@ public class Bookings {
     public String getVehicleType() {
         return vehicleType;
     }
-    public String getDate(){
+    public String getBookingDate(){
         return bookingDate;
     }
-    public String getTime() {
+    public String getBookingTime() {
         return bookingTime;
     }
     public String getStatus() {
         return status;
     }
+
 
 }

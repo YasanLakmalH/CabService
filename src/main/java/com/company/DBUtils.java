@@ -87,7 +87,7 @@ public class DBUtils {
                 alert.setContentText("you cannot use this username.");
                 alert.show();
             } else {
-                int newUserId = 0;
+                int newUserId = 1;
                 Statement statement = connection.createStatement();
                 resultSet = statement.executeQuery("SELECT userId FROM users;");
                 while (resultSet.next()) {
@@ -251,8 +251,8 @@ public class DBUtils {
                     "B.contactNo,  " +
                     "B.pickupLocation,  " +
                     "B.destination,  " +
-                    "B.date,  " +
-                    "B.time,  " +
+                    "B.bookingDate,  " +
+                    "B.bookingTime,  " +
                     "C.vehicleNo, " +
                     "C.vehicleType  " +
                     "FROM bookingmaster A  " +
@@ -271,8 +271,8 @@ public class DBUtils {
                 String contactNo = userBookingsData.getString("contactNo");
                 String pickupLocation = userBookingsData.getString("pickupLocation");
                 String destination = userBookingsData.getString("destination");
-                String date = userBookingsData.getString("date");
-                String time = userBookingsData.getString("time");
+                String bookingDate = userBookingsData.getString("bookingDate");
+                String bookingTime = userBookingsData.getString("bookingTime");
                 String vehicleNo = userBookingsData.getString("vehicleNo");
                 String vehicleType = userBookingsData.getString("vehicleType");
                 String status = userBookingsData.getString("status");
@@ -285,8 +285,8 @@ public class DBUtils {
                                 vehicleType,
                                 pickupLocation,
                                 destination,
-                                date,
-                                time,
+                                bookingDate,
+                                bookingTime,
                                 status)
                 );
                 tableName.setItems(list);
@@ -339,8 +339,8 @@ public class DBUtils {
                 String pickupLocation = userPendingBookingsData.getString("pickupLocation");
                 String destination = userPendingBookingsData.getString("destination");
                 String vehicleType = userPendingBookingsData.getString("vehicleType");
-                String bookingDate = userPendingBookingsData.getString("date");
-                String bookingTime = userPendingBookingsData.getString("time");
+                String bookingDate = userPendingBookingsData.getString("bookingDate");
+                String bookingTime = userPendingBookingsData.getString("bookingTime");
                 String status = userPendingBookingsData.getString("status");
                 list.add(
                         new Bookings(
@@ -384,28 +384,32 @@ public class DBUtils {
         }
     }
 
-    public static boolean checkVehiclesAvailability(String vehicleType, String date){
+    public static boolean checkVehiclesAvailability(String vehicleType, String bookingDate){
         Connection connection = null;
-        PreparedStatement psCheckVehicleExist = null;
+        PreparedStatement psCheckVehicleAvailability = null;
         ResultSet resultSet = null;
         boolean vehicleAvailable = false;
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cabservice", "root", "");
-            psCheckVehicleExist = connection.prepareStatement(
-                    "SELECT vehicleId" +
-                            "FROM userbookings " +
-                            "WHERE date <>?" +
-                            "AND vehicleType=? "+
-                            "UNION" +
-                            "SELECT vehicleId" +
-                            "FROM vehicles" +
+            psCheckVehicleAvailability = connection.prepareStatement(
+                    "SELECT bookingmaster.vehicleId " +
+                            "FROM bookingmaster " +
+                            "INNER JOIN userbookings " +
+                            "ON bookingmaster.bookingId = userbookings.bookingId "+
+                            "INNER JOIN vehicles "+
+                            "ON vehicles.vehicleId = bookingmaster.vehicleId "+
+                            "WHERE userbookings.bookingDate <>? " +
+                            "AND vehicles.vehicleType=? "+
+                            "UNION " +
+                            "SELECT vehicleId " +
+                            "FROM vehicles " +
                             "WHERE vehicleAvailability <> 0 " +
                             "AND vehicleType=? "+
                             "LIMIT 1;");
-            psCheckVehicleExist.setString(1, date);
-            psCheckVehicleExist.setString(2,vehicleType);
-            psCheckVehicleExist.setString(3,vehicleType);
-            resultSet = psCheckVehicleExist.executeQuery();
+            psCheckVehicleAvailability.setString(1, bookingDate);
+            psCheckVehicleAvailability.setString(2,vehicleType);
+            psCheckVehicleAvailability.setString(3,vehicleType);
+            resultSet = psCheckVehicleAvailability.executeQuery();
             if(resultSet.next()){
                 vehicleAvailable = true;
             }else{
@@ -418,27 +422,52 @@ public class DBUtils {
         }
         catch(SQLException e){
             System.out.println("checkVehicleAvailability SQL Exception:"+e.getMessage());
+        }finally {
+            if (resultSet != null) {
+
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (psCheckVehicleAvailability != null) {
+                try {
+                    psCheckVehicleAvailability.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return vehicleAvailable;
     }
     public static boolean checkDriversAvailability(String date) {
         Connection connection = null;
-        PreparedStatement psCheckVehicleExist = null;
+        PreparedStatement psCheckDriverAvailability = null;
         ResultSet resultSet = null;
         boolean driverAvailable = false;
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cabservice", "root", "");
-            psCheckVehicleExist = connection.prepareStatement(
-                    "SELECT driverId" +
+            psCheckDriverAvailability = connection.prepareStatement(
+                    "SELECT driverId " +
                             "FROM bookingmaster " +
-                            "WHERE date <>?" +
-                            "UNION" +
-                            "SELECT driverId" +
-                            "FROM drivers" +
+                            "INNER JOIN userbookings "+
+                            "ON bookingmaster.bookingId = userbookings.bookingId "+
+                            "WHERE userbookings.date <>? " +
+                            "UNION " +
+                            "SELECT driverId " +
+                            "FROM drivers " +
                             "WHERE driverAvailability <> 0 " +
                             "LIMIT 1;");
-            psCheckVehicleExist.setString(1, date);
-            resultSet = psCheckVehicleExist.executeQuery();
+            psCheckDriverAvailability.setString(1, date);
+            resultSet = psCheckDriverAvailability.executeQuery();
             if (resultSet.next()) {
                 driverAvailable = true;
             } else {
@@ -449,15 +478,38 @@ public class DBUtils {
 
             }
         } catch (SQLException e) {
-            System.out.println("checkVehicleAvailability SQL Exception:" + e.getMessage());
+            System.out.println("checkDriverAvailability SQL Exception:" + e.getMessage());
+        }finally {
+            if (resultSet != null) {
+
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (psCheckDriverAvailability != null) {
+                try {
+                    psCheckDriverAvailability.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return driverAvailable;
     }
 
     public static int getBookingId() {
-        Connection connection;
-        Statement getLatestBookingId;
-        ResultSet resultSet;
+        Connection connection = null;
+        Statement getLatestBookingId = null;
+        ResultSet resultSet = null;
         int bookingId = 0;
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cabservice", "root", "");
@@ -469,6 +521,29 @@ public class DBUtils {
             }
         } catch (SQLException e) {
             System.out.println("getBookingId " + e.getMessage());
+        }finally {
+            if (resultSet != null) {
+
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (getLatestBookingId != null) {
+                try {
+                    getLatestBookingId.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return bookingId;
     }
@@ -479,10 +554,10 @@ public class DBUtils {
             String pickupLocation,
             String destination,
             String vehicleType,
-            String date,
-            String time,
+            String bookingDate,
+            String bookingTime,
             String status) {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement psInsertUserBookingData = null;
         int bookingId = getBookingId();
         try {
@@ -494,8 +569,8 @@ public class DBUtils {
             psInsertUserBookingData.setString(4, pickupLocation);
             psInsertUserBookingData.setString(5, destination);
             psInsertUserBookingData.setString(6,vehicleType);
-            psInsertUserBookingData.setString(7, date);
-            psInsertUserBookingData.setString(8, time);
+            psInsertUserBookingData.setString(7, bookingDate);
+            psInsertUserBookingData.setString(8, bookingTime);
             psInsertUserBookingData.setString(9, status);
             psInsertUserBookingData.executeUpdate();
 
@@ -504,6 +579,22 @@ public class DBUtils {
             alert.show();
         } catch (SQLException e) {
             System.out.println("addNewBooking SQL Exception:" + e.getMessage());
+        }finally {
+            if (psInsertUserBookingData != null) {
+
+                try {
+                    psInsertUserBookingData.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -545,8 +636,8 @@ public class DBUtils {
                 String contactNo = userBookingsData.getString("contactNo");
                 String pickupLocation = userBookingsData.getString("pickupLocation");
                 String destination = userBookingsData.getString("destination");
-                String date = userBookingsData.getString("date");
-                String time = userBookingsData.getString("time");
+                String bookingDate = userBookingsData.getString("bookingDate");
+                String bookingTime = userBookingsData.getString("bookingTime");
                 String vehicleNo = userBookingsData.getString("vehicleNo");
                 String vehicleType = userBookingsData.getString("vehicleType");
                 String status = userBookingsData.getString("status");
@@ -559,8 +650,8 @@ public class DBUtils {
                                 vehicleType,
                                 pickupLocation,
                                 destination,
-                                date,
-                                time,
+                                bookingDate,
+                                bookingTime,
                                 status)
                 );
                 tableName.setItems(list);
@@ -627,8 +718,8 @@ public class DBUtils {
                 String contactNo = userBookingsData.getString("contactNo");
                 String pickupLocation = userBookingsData.getString("pickupLocation");
                 String destination = userBookingsData.getString("destination");
-                String date = userBookingsData.getString("date");
-                String time = userBookingsData.getString("time");
+                String bookingDate = userBookingsData.getString("bookingDate");
+                String bookingTime = userBookingsData.getString("bookingTime");
                 String vehicleNo = userBookingsData.getString("vehicleNo");
                 String vehicleType = userBookingsData.getString("vehicleType");
                 String status = userBookingsData.getString("status");
@@ -641,8 +732,8 @@ public class DBUtils {
                                 vehicleType,
                                 pickupLocation,
                                 destination,
-                                date,
-                                time,
+                                bookingDate,
+                                bookingTime,
                                 status)
                 );
                 tableName.setItems(list);
